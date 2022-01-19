@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.breathifier">
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BreathiFier">
+        <activity android:name=".Trial"></activity>
+        <activity android:name=".yoga5" />
+        <activity android:name=".yoga4" />
+        <activity android:name=".yoga3" />
+        <activity android:name=".yoga2" />
+        <activity android:name=".yoga1" />
+        <activity android:name=".YogaDisplay" />
+        <activity android:name=".YogaIntro" />
+        <activity android:name=".PanicAttack1" />
+        <activity android:name=".PanicDetails" />
+        <activity android:name=".PanicActivity" />
+        <activity android:name=".AlarmNotificationSetter" />
+        <activity android:name=".stressDisplay" />
+        <activity android:name=".ActualMeditation" />
+        <activity android:name=".MeditationIntorduction" />
+        <activity android:name=".ToNotEat" />
+        <activity android:name=".ToEat" />
+        <activity android:name=".ImportanceOfDiet" />
+        <activity android:name=".BreakFatIntro" />
+        <activity android:name=".StressCalculator" />
+        <activity android:name=".Introduction" />
+        <activity android:name=".Registration" />
+        <activity android:name=".RegistrationIntroduction" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "813920167868",
+    "project_id": "breathifier",
+    "storage_bucket": "breathifier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813920167868:android:e2e075ecbf0501cf872db9",
+        "android_client_info": {
+          "package_name": "com.example.breathifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813920167868-ou9g67vef4smabnoc0mg9ejn08na6c3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuvkeZPytGGbHo4YEZ7hwcwi3ZtU4NX5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813920167868-ou9g67vef4smabnoc0mg9ejn08na6c3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
