@@ -8,32 +8,34 @@
     tools:context=".stressDisplay">
 
     <!-- App Logo -->
+
+    <!-- Title: Stress Calculator Result -->
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="131dp"
         android:layout_height="102dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/defenderlogo" />
 
-    <!-- Title: Stress Calculator Result -->
+    <!-- Stress Level / Suicidal Thoughts Message -->
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:text="Stress Calculator Result"
         android:textColor="#000000"
         android:textSize="33sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView6" />
 
-    <!-- Stress Level / Suicidal Thoughts Message -->
     <TextView
         android:id="@+id/tvdis"
         android:layout_width="wrap_content"
@@ -47,20 +49,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView2" />
 
-    <!-- Score or Doctor Details -->
-    <TextView
-        android:id="@+id/tvDoctorDetails"
-        android:layout_width="wrap_content"
+    <!-- Doctor Details Carousel Container -->
+    <LinearLayout
+        android:id="@+id/doctorContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:text="Details here"
-        android:textColor="#000000"
-        android:textSize="18sp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvdis"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvdis" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Left Arrow Button -->
+        <Button
+            android:id="@+id/btnPrevious"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="←"
+            android:textSize="22sp"
+            android:visibility="gone"/>
+
+        <!-- ViewFlipper for Scrolling Doctor Details -->
+        <ViewFlipper
+            android:id="@+id/viewFlipper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"/>
+
+        <!-- Right Arrow Button -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="→"
+            android:textSize="22sp"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <!-- Recommendation Text -->
     <TextView
@@ -72,7 +99,7 @@
         android:gravity="center"
         android:layout_marginTop="16dp"
         android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@id/tvDoctorDetails"
+        app:layout_constraintTop_toBottomOf="@id/doctorContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
