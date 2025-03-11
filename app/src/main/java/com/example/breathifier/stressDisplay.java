@@ -1,15 +1,22 @@
 package com.example.breathifier;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.ViewFlipper;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class stressDisplay extends AppCompatActivity {
-    TextView tvRes, tvDoctorDetails, recommendationText;
-    Button yogaButton, meditationButton, dietButton;
+    TextView tvRes, recommendationText;
+    ViewFlipper viewFlipper;
+    Button btnPrevious, btnNext, yogaButton, meditationButton, dietButton;
+    LinearLayout doctorContainer;
 
     @Override
     public void onBackPressed() {
@@ -25,102 +32,113 @@ public class stressDisplay extends AppCompatActivity {
 
         // Initialize views
         tvRes = findViewById(R.id.tvdis);
-        tvDoctorDetails = findViewById(R.id.tvDoctorDetails);
+        viewFlipper = findViewById(R.id.viewFlipper);
+        doctorContainer = findViewById(R.id.doctorContainer);
+        btnPrevious = findViewById(R.id.btnPrevious);
+        btnNext = findViewById(R.id.btnNext);
         recommendationText = findViewById(R.id.recommendationText);
         yogaButton = findViewById(R.id.yogaButton);
         meditationButton = findViewById(R.id.meditationButton);
         dietButton = findViewById(R.id.dietButton);
 
-        // Retrieve extras from the intent
+        // Retrieve extras from intent
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
             tvRes.setText("Error retrieving data");
             return;
         }
 
-        int score = extras.getInt("score", 0);
         boolean danger = extras.getBoolean("danger", false);
-        String doctorDetails = extras.getString("doctorDetails", null);
         String stressLevel = extras.getString("stressLevel", null);
 
         if (danger) {
-            // Danger level: Display danger message and doctor details
+            // Show doctor details carousel when danger is detected
             tvRes.setText("You are going through suicidal thoughts, consider doctor consultation.");
-            displayDoctorDetails(doctorDetails);
+            doctorContainer.setVisibility(View.VISIBLE);
+            btnPrevious.setVisibility(View.VISIBLE);
+            btnNext.setVisibility(View.VISIBLE);
+            displayDoctorDetails();
             hideRecommendations();
         } else if ("High".equalsIgnoreCase(stressLevel)) {
-            // High stress level: Display high stress message and recommendations
             tvRes.setText("Your stress level is High. We recommend you to consult a doctor.");
-            displayDoctorDetails(doctorDetails);
+            doctorContainer.setVisibility(View.VISIBLE);
+            btnPrevious.setVisibility(View.VISIBLE);
+            btnNext.setVisibility(View.VISIBLE);
+            displayDoctorDetails();
             recommendationText.setText("We also recommend Yoga, Meditation, and a Healthy Diet.");
             showRecommendations();
-        } else if ("Moderate".equalsIgnoreCase(stressLevel)) {
-            // Moderate stress level: Recommendations only
-            tvRes.setText("Your stress level is Moderate.");
-            recommendationText.setText("We highly recommend Yoga, Meditation, and a Healthy Diet.");
+        } else {
+            // Other cases (Moderate, Low, etc.)
             hideDoctorDetails();
             showRecommendations();
-        } else if ("Low".equalsIgnoreCase(stressLevel)) {
-            // Low stress level: Optional recommendations
-            tvRes.setText("Your stress level is Low.");
-            recommendationText.setText("Although your stress level is low we recommend you yoga and meditation (Optional).");
-            hideDoctorDetails();
-            showYogaAndMeditationRecommendationsOnly();
-        } else {
-            // Error or unknown case
-            tvRes.setText("Error determining stress level.");
-            hideDoctorDetails();
-            hideRecommendations();
         }
 
-        // Yoga button click handler
-        yogaButton.setOnClickListener(v -> {
-            Intent yogaIntent = new Intent(this, YogaIntro.class); // Replace with your Yoga activity class
-            startActivity(yogaIntent);
+        // Left Arrow Button: Move to Previous Doctor (Fix animation)
+        btnPrevious.setOnClickListener(v -> {
+            viewFlipper.setInAnimation(this, android.R.anim.slide_in_left);
+            viewFlipper.setOutAnimation(this, android.R.anim.slide_out_right);
+            viewFlipper.showPrevious();
         });
 
-        // Meditation button click handler
-        meditationButton.setOnClickListener(v -> {
-            Intent meditationIntent = new Intent(this, ActualMeditation.class); // Replace with your Meditation activity class
-            startActivity(meditationIntent);
-        });
-
-        // Diet button click handler
-        dietButton.setOnClickListener(v -> {
-            Intent dietIntent = new Intent(this, BreakFatIntro.class); // Replace with your Healthy Diet activity class
-            startActivity(dietIntent);
+        // Right Arrow Button: Move to Next Doctor (Fix animation)
+        btnNext.setOnClickListener(v -> {
+            viewFlipper.setInAnimation(this, android.R.anim.slide_out_right);
+            viewFlipper.setOutAnimation(this, android.R.anim.slide_in_left);
+            viewFlipper.showNext();
         });
     }
 
-    private void displayDoctorDetails(String doctorDetails) {
-        if (doctorDetails != null && !doctorDetails.isEmpty()) {
-            tvDoctorDetails.setText("Doctor Details:\n" + doctorDetails);
-            tvDoctorDetails.setVisibility(TextView.VISIBLE);
-        } else {
-            tvDoctorDetails.setVisibility(TextView.GONE);
+    private void displayDoctorDetails() {
+        // Doctor details array
+        String[][] doctors = {
+                {"Dr. Ajay Balki", "📞 022 6948 9850", "🏥 Manak Healthcare Care Hospital\nNear Rajiv Gandhi Bridge, Sector 8, Nerul West, Nerul, Navi Mumbai, Maharashtra 400706"},
+                {"Dr. Ravindra Chavhan", "📞 9820091517", "🏥 Lifecare Hospital\nF1 Building, Sungrace, Near Shabri Hotel, Juhu Nagar, Sector 10, Vashi, Navi Mumbai, Maharashtra 400703"},
+                {"Dr. Yogita Shinde", "📞 8928157119", "🏥 Amale Hospital\nPlot No 115, Behind Shabari Restaurant, Sector-1, New Panvel East, Panvel, Navi Mumbai, Maharashtra 410206"}
+        };
+
+        for (String[] doctor : doctors) {
+            String name = doctor[0];
+            String phone = doctor[1];
+            String address = doctor[2];
+
+            // Make phone number clickable
+            String phoneLink = "<a href='tel:" + phone.replace("📞 ", "") + "'>" + phone + "</a>";
+
+            // Make address clickable for Google Maps
+            String mapQuery = Uri.encode(address.replace("🏥 ", ""));
+            String addressLink = "<a href='https://www.google.com/maps/search/?api=1&query=" + mapQuery + "'>" + address + "</a>";
+
+            // Create a formatted TextView for better readability
+            TextView doctorView = new TextView(this);
+            doctorView.setText(Html.fromHtml("<b>" + name + "</b><br><br>" + phoneLink + "<br><br>" + addressLink));
+            doctorView.setTextSize(18);
+            doctorView.setPadding(40, 30, 40, 30);
+            doctorView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            doctorView.setLineSpacing(1.2f, 1.2f);
+            doctorView.setMovementMethod(LinkMovementMethod.getInstance());
+
+            // Add to ViewFlipper
+            viewFlipper.addView(doctorView);
         }
     }
+
 
     private void hideDoctorDetails() {
-        tvDoctorDetails.setVisibility(TextView.GONE);
+        doctorContainer.setVisibility(View.GONE);
+        btnPrevious.setVisibility(View.GONE);
+        btnNext.setVisibility(View.GONE);
     }
 
     private void showRecommendations() {
-        yogaButton.setVisibility(Button.VISIBLE);
-        meditationButton.setVisibility(Button.VISIBLE);
-        dietButton.setVisibility(Button.VISIBLE);
-    }
-
-    private void showYogaAndMeditationRecommendationsOnly() {
-        yogaButton.setVisibility(Button.VISIBLE);
-        meditationButton.setVisibility(Button.VISIBLE);
-        dietButton.setVisibility(Button.GONE);
+        yogaButton.setVisibility(View.VISIBLE);
+        meditationButton.setVisibility(View.VISIBLE);
+        dietButton.setVisibility(View.VISIBLE);
     }
 
     private void hideRecommendations() {
         recommendationText.setText("");
-        yogaButton.setVisibility(Button.GONE);
-        meditationButton.setVisibility(Button.GONE);
-        dietButton.setVisibility(Button.GONE);
+        yogaButton.setVisibility(View.GONE);
+        meditationButton.setVisibility(View.GONE);
+        dietButton.setVisibility(View.GONE);
     }
 }
