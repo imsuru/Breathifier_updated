@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class stressDisplay extends AppCompatActivity {
         yogaButton = findViewById(R.id.yogaButton);
         meditationButton = findViewById(R.id.meditationButton);
         dietButton = findViewById(R.id.dietButton);
+        ScrollView scrollView = findViewById(R.id.scrollView);
+
 
         // Retrieve extras from intent
         Bundle extras = getIntent().getExtras();
@@ -51,6 +54,9 @@ public class stressDisplay extends AppCompatActivity {
         boolean danger = extras.getBoolean("danger", false);
         String stressLevel = extras.getString("stressLevel", null);
 
+        // Ensure stress level text is always visible
+        tvRes.setVisibility(View.VISIBLE);
+
         if (danger) {
             // Show doctor details carousel when danger is detected
             tvRes.setText("You are going through suicidal thoughts, consider doctor consultation.");
@@ -59,6 +65,8 @@ public class stressDisplay extends AppCompatActivity {
             btnNext.setVisibility(View.VISIBLE);
             displayDoctorDetails();
             hideRecommendations();
+            scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+
         } else if ("High".equalsIgnoreCase(stressLevel)) {
             tvRes.setText("Your stress level is High. We recommend you to consult a doctor.");
             doctorContainer.setVisibility(View.VISIBLE);
@@ -67,29 +75,60 @@ public class stressDisplay extends AppCompatActivity {
             displayDoctorDetails();
             recommendationText.setText("We also recommend Yoga, Meditation, and a Healthy Diet.");
             showRecommendations();
-        } else {
-            // Other cases (Moderate, Low, etc.)
+            scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+
+        } else if ("Moderate".equalsIgnoreCase(stressLevel)) {
+            tvRes.setText("Your stress level is Moderate.");
+            recommendationText.setText("We highly recommend Yoga, Meditation, and a Healthy Diet.");
             hideDoctorDetails();
             showRecommendations();
+        } else if ("Low".equalsIgnoreCase(stressLevel)) {
+            tvRes.setText("Your stress level is Low.");
+            recommendationText.setText("Although your stress level is low, we recommend Yoga and Meditation (Optional).");
+            hideDoctorDetails();
+            showYogaAndMeditationRecommendationsOnly();
+        } else {
+            tvRes.setText("Error determining stress level.");
+            hideDoctorDetails();
+            hideRecommendations();
         }
 
-        // Left Arrow Button: Move to Previous Doctor (Fix animation)
+        // Ensure buttons are visible before setting click listeners
+        yogaButton.setVisibility(View.VISIBLE);
+        meditationButton.setVisibility(View.VISIBLE);
+        dietButton.setVisibility(View.VISIBLE);
+
+        // Button Click Handlers for ViewFlipper
         btnPrevious.setOnClickListener(v -> {
             viewFlipper.setInAnimation(this, android.R.anim.slide_in_left);
             viewFlipper.setOutAnimation(this, android.R.anim.slide_out_right);
             viewFlipper.showPrevious();
         });
 
-        // Right Arrow Button: Move to Next Doctor (Fix animation)
         btnNext.setOnClickListener(v -> {
             viewFlipper.setInAnimation(this, android.R.anim.slide_out_right);
             viewFlipper.setOutAnimation(this, android.R.anim.slide_in_left);
             viewFlipper.showNext();
         });
+
+        // Ensure buttons redirect correctly
+        yogaButton.setOnClickListener(v -> {
+            Intent yogaIntent = new Intent(this, YogaIntro.class);
+            startActivity(yogaIntent);
+        });
+
+        meditationButton.setOnClickListener(v -> {
+            Intent meditationIntent = new Intent(this, ActualMeditation.class);
+            startActivity(meditationIntent);
+        });
+
+        dietButton.setOnClickListener(v -> {
+            Intent dietIntent = new Intent(this, BreakFatIntro.class);
+            startActivity(dietIntent);
+        });
     }
 
     private void displayDoctorDetails() {
-        // Doctor details array
         String[][] doctors = {
                 {"Dr. Ajay Balki", "📞 022 6948 9850", "🏥 Manak Healthcare Care Hospital\nNear Rajiv Gandhi Bridge, Sector 8, Nerul West, Nerul, Navi Mumbai, Maharashtra 400706"},
                 {"Dr. Ravindra Chavhan", "📞 9820091517", "🏥 Lifecare Hospital\nF1 Building, Sungrace, Near Shabri Hotel, Juhu Nagar, Sector 10, Vashi, Navi Mumbai, Maharashtra 400703"},
@@ -101,14 +140,10 @@ public class stressDisplay extends AppCompatActivity {
             String phone = doctor[1];
             String address = doctor[2];
 
-            // Make phone number clickable
             String phoneLink = "<a href='tel:" + phone.replace("📞 ", "") + "'>" + phone + "</a>";
-
-            // Make address clickable for Google Maps
             String mapQuery = Uri.encode(address.replace("🏥 ", ""));
             String addressLink = "<a href='https://www.google.com/maps/search/?api=1&query=" + mapQuery + "'>" + address + "</a>";
 
-            // Create a formatted TextView for better readability
             TextView doctorView = new TextView(this);
             doctorView.setText(Html.fromHtml("<b>" + name + "</b><br><br>" + phoneLink + "<br><br>" + addressLink));
             doctorView.setTextSize(18);
@@ -117,11 +152,9 @@ public class stressDisplay extends AppCompatActivity {
             doctorView.setLineSpacing(1.2f, 1.2f);
             doctorView.setMovementMethod(LinkMovementMethod.getInstance());
 
-            // Add to ViewFlipper
             viewFlipper.addView(doctorView);
         }
     }
-
 
     private void hideDoctorDetails() {
         doctorContainer.setVisibility(View.GONE);
@@ -133,6 +166,12 @@ public class stressDisplay extends AppCompatActivity {
         yogaButton.setVisibility(View.VISIBLE);
         meditationButton.setVisibility(View.VISIBLE);
         dietButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showYogaAndMeditationRecommendationsOnly() {
+        yogaButton.setVisibility(View.VISIBLE);
+        meditationButton.setVisibility(View.VISIBLE);
+        dietButton.setVisibility(View.GONE);
     }
 
     private void hideRecommendations() {

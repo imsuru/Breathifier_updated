@@ -20,24 +20,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Play Piano Button -->
+    <!-- Play Om Button -->
     <Button
-        android:id="@+id/playPiano"
+        android:id="@+id/playOm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Play Piano"
+        android:text="Play Om mantra"
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Progress Bar for Piano -->
+    <!-- Progress Bar for Om -->
     <SeekBar
-        android:id="@+id/progressPiano"
+        android:id="@+id/progressOm"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/playPiano"
+        app:layout_constraintTop_toBottomOf="@id/playOm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp" />
@@ -48,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Play Track 1"
-        app:layout_constraintTop_toBottomOf="@id/progressPiano"
+        app:layout_constraintTop_toBottomOf="@id/progressOm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
