@@ -20,21 +20,20 @@ public class ActualMeditation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actual_meditation);
 
-        Button playPiano = findViewById(R.id.playPiano);
+        Button playOm = findViewById(R.id.playOm);
         Button playTrack1 = findViewById(R.id.playTrack1);
         Button playTrack2 = findViewById(R.id.playTrack2);
 
-        SeekBar seekBarPiano = findViewById(R.id.progressPiano);
+        SeekBar seekBarOm = findViewById(R.id.progressOm);
         SeekBar seekBarTrack1 = findViewById(R.id.progressTrack1);
         SeekBar seekBarTrack2 = findViewById(R.id.progressTrack2);
-
         // Set listeners for buttons
-        playPiano.setOnClickListener(v -> toggleTrack(playPiano, "Piano", R.raw.piano, seekBarPiano));
+        playOm.setOnClickListener(v -> toggleTrack(playOm, "om", R.raw.om, seekBarOm));
         playTrack1.setOnClickListener(v -> toggleTrack(playTrack1, "Track 1", R.raw.track1, seekBarTrack1));
         playTrack2.setOnClickListener(v -> toggleTrack(playTrack2, "Track 2", R.raw.track2, seekBarTrack2));
 
         // Enable manual adjustments for each SeekBar
-        setSeekBarListener(seekBarPiano);
+        setSeekBarListener(seekBarOm);
         setSeekBarListener(seekBarTrack1);
         setSeekBarListener(seekBarTrack2);
     }
@@ -134,7 +133,7 @@ public class ActualMeditation extends AppCompatActivity {
     }
 
     private void resetAllSeekBarsAndButtons() {
-        resetSeekBarAndButton(findViewById(R.id.progressPiano), findViewById(R.id.playPiano));
+        resetSeekBarAndButton(findViewById(R.id.progressOm), findViewById(R.id.playOm));
         resetSeekBarAndButton(findViewById(R.id.progressTrack1), findViewById(R.id.playTrack1));
         resetSeekBarAndButton(findViewById(R.id.progressTrack2), findViewById(R.id.playTrack2));
     }

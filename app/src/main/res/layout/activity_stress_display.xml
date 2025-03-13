@@ -7,136 +7,135 @@
     android:layout_height="match_parent"
     tools:context=".stressDisplay">
 
-    <!-- App Logo -->
-
-    <!-- Title: Stress Calculator Result -->
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="131dp"
-        android:layout_height="102dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/defenderlogo" />
-
-    <!-- Stress Level / Suicidal Thoughts Message -->
-    <TextView
-        android:id="@+id/textView2"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
-        android:text="Stress Calculator Result"
-        android:textColor="#000000"
-        android:textSize="33sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView6" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tvdis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="Stress Level"
-        android:textColor="#000000"
-        android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2" />
-
-    <!-- Doctor Details Carousel Container -->
-    <LinearLayout
-        android:id="@+id/doctorContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/tvdis"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Left Arrow Button -->
-        <Button
-            android:id="@+id/btnPrevious"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="←"
-            android:textSize="22sp"
-            android:visibility="gone"/>
-
-        <!-- ViewFlipper for Scrolling Doctor Details -->
-        <ViewFlipper
-            android:id="@+id/viewFlipper"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inAnimation="@android:anim/slide_in_left"
-            android:outAnimation="@android:anim/slide_out_right"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Right Arrow Button -->
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="→"
-            android:textSize="22sp"
-            android:visibility="gone"/>
-    </LinearLayout>
+            <!-- App Logo -->
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="131dp"
+                android:layout_height="102dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="28dp"
+                app:srcCompat="@drawable/defenderlogo" />
 
-    <!-- Recommendation Text -->
-    <TextView
-        android:id="@+id/recommendationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@id/doctorContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <!-- Title -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Stress Calculator Result"
+                android:textColor="#000000"
+                android:textSize="33sp"
+                android:textStyle="bold" />
 
-    <!-- Yoga Button -->
-    <Button
-        android:id="@+id/yogaButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Go to Yoga"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recommendationText" />
+            <!-- Stress Level -->
+            <TextView
+                android:id="@+id/tvdis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Stress Level"
+                android:textColor="#000000"
+                android:textSize="26sp" />
 
-    <!-- Meditation Button -->
-    <Button
-        android:id="@+id/meditationButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Go to Meditation"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/yogaButton" />
+            <!-- Doctor Details Carousel -->
+            <LinearLayout
+                android:id="@+id/doctorContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:visibility="gone">
 
-    <!-- Healthy Diet Button -->
-    <Button
-        android:id="@+id/dietButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Go to Healthy Diet"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/meditationButton" />
+                <!-- Left Arrow Button -->
+                <Button
+                    android:id="@+id/btnPrevious"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="←"
+                    android:textSize="22sp"
+                    android:visibility="gone" />
+
+                <!-- ViewFlipper for Scrolling Doctor Details -->
+                <ViewFlipper
+                    android:id="@+id/viewFlipper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inAnimation="@android:anim/slide_in_left"
+                    android:outAnimation="@android:anim/slide_out_right" />
+
+                <!-- Right Arrow Button -->
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="→"
+                    android:textSize="22sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Recommendation Text -->
+            <TextView
+                android:id="@+id/recommendationText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:textColor="#000000" />
+
+            <!-- Buttons Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <!-- Yoga Button -->
+                <Button
+                    android:id="@+id/yogaButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Go to Yoga"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp" />
+
+                <!-- Meditation Button -->
+                <Button
+                    android:id="@+id/meditationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Go to Meditation"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp" />
+
+                <!-- Diet Button -->
+                <Button
+                    android:id="@+id/dietButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Go to Healthy Diet"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
